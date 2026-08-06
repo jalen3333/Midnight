@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07120e">
+  <title>Midnight Felt</title>
+  <style>
+    :root{--ink:#f5f1e8;--muted:#93a59d;--felt:#0c2c22;--felt2:#071a14;--panel:#0b1713;--line:#244137;--gold:#d4a84f;--gold2:#f2d891;--red:#e77565;--green:#5fd49a;--shadow:0 18px 60px #0007;--r:18px}
+    *{box-sizing:border-box}html{background:#050a08;color-scheme:dark}body{margin:0;min-height:100vh;color:var(--ink);font:15px/1.45 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 50% -20%,#194d3a 0,transparent 42%),linear-gradient(135deg,#050a08,#091711 55%,#050a08)}
+    button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #f2d89166;outline-offset:2px}.shell{width:min(1180px,calc(100% - 32px));margin:auto;padding:24px 0 60px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:14px}.mark{width:46px;height:46px;border:1px solid #dab35d88;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#17382b,#08130f);box-shadow:inset 0 0 20px #d4a84f18;color:var(--gold2);font:700 24px Georgia,serif}.brand h1{margin:0;font:700 clamp(25px,4vw,38px)/1 Georgia,serif;letter-spacing:.02em}.brand p{margin:6px 0 0;color:var(--muted);font-size:13px;letter-spacing:.1em;text-transform:uppercase}.header-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{border:1px solid var(--line);border-radius:11px;background:#101f1a;color:var(--ink);padding:10px 14px;font-weight:700;transition:.15s transform,.15s border-color,.15s background}.btn:hover{border-color:#567264;transform:translateY(-1px)}.btn.primary{color:#181106;background:linear-gradient(180deg,var(--gold2),var(--gold));border-color:#f1d283}.btn.danger{color:#ffb4a8}.btn.ghost{background:transparent}.btn:disabled{opacity:.38;cursor:not-allowed;transform:none}.icon-btn{width:36px;height:36px;padding:0;border-radius:50%}
+    .tabletop{position:relative;overflow:hidden;border:1px solid #34614f;border-radius:28px;background:radial-gradient(ellipse at center,#174c39 0,#0e3528 52%,#0a281e 100%);box-shadow:var(--shadow),inset 0 0 0 7px #09140f,inset 0 0 0 9px #a47b3338;padding:26px}.tabletop:before{content:"";position:absolute;inset:0;opacity:.16;pointer-events:none;background-image:repeating-linear-gradient(135deg,transparent 0 3px,#fff 4px,transparent 5px 9px)}
+    .summary{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{background:#07130fcc;border:1px solid #315345;border-radius:15px;padding:15px}.metric span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.11em}.metric strong{display:block;margin-top:5px;font:700 23px Georgia,serif}.metric strong.good{color:var(--green)}.metric strong.bad{color:var(--red)}
+    .layout{position:relative;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.8fr);gap:18px}.card{background:#07130ff0;border:1px solid #315345;border-radius:var(--r);box-shadow:0 12px 32px #0004}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 18px;border-bottom:1px solid #243f34}.card h2{margin:0;font:700 19px Georgia,serif}.card-body{padding:18px}
+    .add-row{display:grid;grid-template-columns:1fr auto;gap:9px}.input{width:100%;border:1px solid #315345;border-radius:11px;background:#0e2019;color:var(--ink);padding:11px 12px}.input::placeholder{color:#6f847a}.players{display:grid;gap:10px;margin-top:16px}.empty{padding:34px 18px;text-align:center;border:1px dashed #385547;border-radius:14px;color:var(--muted)}.empty b{display:block;color:var(--ink);font:700 18px Georgia,serif;margin-bottom:4px}
+    .player{display:grid;grid-template-columns:minmax(100px,1fr) auto auto;align-items:center;gap:12px;padding:13px;border:1px solid #29493b;border-radius:14px;background:#0c1d17}.player-name{min-width:0}.player-name strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-name small{color:var(--muted)}.amounts{display:flex;gap:6px}.pill{min-width:78px;text-align:center;padding:7px;border-radius:9px;background:#07120e;border:1px solid #243f34}.pill small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}.pill b{font-size:14px}.player-actions{display:flex;gap:6px}.player-actions .btn{padding:8px 10px;font-size:12px}.net{font-weight:800}.net.pos{color:var(--green)}.net.neg{color:var(--red)}
+    .field{display:grid;gap:6px;margin-bottom:14px}.field label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.09em}.hint{color:var(--muted);font-size:12px;margin:-5px 0 14px}.balance{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:11px;background:#0e2019;margin:14px 0}.settlements{display:grid;gap:9px}.payment{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px;border:1px solid #29493b;border-radius:12px;background:#0b1b15}.payment .to{text-align:right}.payment b{color:var(--gold2);white-space:nowrap}.arrow{color:var(--muted)}
+    .status{min-height:22px;margin:13px 2px 0;color:var(--muted);font-size:13px}.status.error{color:#ff9f92}.status.ok{color:#8de5b7}.footer{color:#72877d;text-align:center;font-size:12px;margin-top:18px}.modal{position:fixed;inset:0;display:none;place-items:center;padding:18px;background:#000b;z-index:20}.modal.open{display:grid}.dialog{width:min(520px,100%);max-height:90vh;overflow:auto;border:1px solid #426655;border-radius:20px;background:#0a1712;box-shadow:var(--shadow);padding:20px}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.dialog h2{margin:0;font:700 23px Georgia,serif}.dialog p{color:var(--muted)}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.divider{height:1px;background:var(--line);margin:18px 0}.file-label{display:block;text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:820px){.shell{width:min(100% - 20px,720px);padding-top:15px}header{align-items:flex-start}.layout{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}.tabletop{padding:16px;border-radius:22px}.player{grid-template-columns:1fr auto}.amounts{grid-row:2;grid-column:1/-1}.player-actions{grid-row:1;grid-column:2}.pill{flex:1}.header-actions .label{display:none}}
+    @media(max-width:480px){.brand p{display:none}.mark{width:40px;height:40px}.summary{gap:7px}.metric{padding:11px}.metric strong{font-size:19px}.player-actions{flex-wrap:wrap;justify-content:flex-end}.btn{padding:9px 11px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><div class="mark" aria-hidden="true">M</div><div><h1>Midnight Felt</h1><p>Private home game ledger</p></div></div>
+      <div class="header-actions">
+        <button class="btn ghost" id="undoBtn" type="button">↶ <span class="label">Undo</span></button>
+        <button class="btn ghost" id="backupBtn" type="button">Backup</button>
+        <button class="btn danger" id="newBtn" type="button">New game</button>
+      </div>
+    </header>
+
+    <main class="tabletop">
+      <section class="summary" aria-label="Game summary">
+        <div class="metric"><span>Players</span><strong id="playerCount">0</strong></div>
+        <div class="metric"><span>Total buy-ins</span><strong id="totalBuyins">$0</strong></div>
+        <div class="metric"><span>Cash recorded</span><strong id="totalCash">$0</strong></div>
+        <div class="metric"><span>Balance</span><strong id="balanceMetric">$0</strong></div>
+      </section>
+
+      <div class="layout">
+        <section class="card">
+          <div class="card-head"><h2>Players</h2><span id="gameDate"></span></div>
+          <div class="card-body">
+            <form class="add-row" id="addPlayerForm">
+              <label class="sr-only" for="playerName">Player name</label>
+              <input class="input" id="playerName" maxlength="32" autocomplete="off" placeholder="Add a player…" required>
+              <button class="btn primary" type="submit">Add player</button>
+            </form>
+            <div class="players" id="players"></div>
+          </div>
+        </section>
+
+        <aside class="card">
+          <div class="card-head"><h2>Settle the table</h2></div>
+          <div class="card-body">
+            <div class="field"><label for="dealerTip">Dealer tip</label><input class="input" id="dealerTip" type="number" inputmode="numeric" min="0" step="1" value="0"></div>
+            <p class="hint">Whole dollars only. The dealer tip is paid from the table before player settlement.</p>
+            <div class="balance"><span>Amount to reconcile</span><strong id="reconcile">$0</strong></div>
+            <div class="settlements" id="settlements"></div>
+            <div class="status" id="status" role="status" aria-live="polite"></div>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <p class="footer">Runs entirely in this browser. No account, server, analytics or connection required.</p>
+  </div>
+
+  <div class="modal" id="moneyModal" role="dialog" aria-modal="true" aria-labelledby="moneyTitle">
+    <div class="dialog">
+      <div class="dialog-head"><h2 id="moneyTitle">Record amount</h2><button class="btn icon-btn ghost" type="button" data-close aria-label="Close">×</button></div>
+      <form id="moneyForm">
+        <p id="moneyPrompt"></p>
+        <div class="field"><label for="moneyAmount">Amount</label><input class="input" id="moneyAmount" type="number" min="0" step="1" inputmode="numeric" required></div>
+        <div class="dialog-actions"><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="submit">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="backupModal" role="dialog" aria-modal="true" aria-labelledby="backupTitle">
+    <div class="dialog">
+      <div class="dialog-head"><h2 id="backupTitle">Backup & restore</h2><button class="btn icon-btn ghost" type="button" data-close aria-label="Close">×</button></div>
+      <p>Download this game as a JSON file, or restore a previous backup. Backups stay under your control.</p>
+      <button class="btn primary" id="downloadBtn" type="button">Download backup</button>
+      <div class="divider"></div>
+      <label class="btn file-label" for="restoreFile">Choose backup file</label>
+      <input class="sr-only" id="restoreFile" type="file" accept="application/json,.json">
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    'use strict';
+    const KEY='midnight-felt-v1', MAX_UNDO=80;
+    const $=s=>document.querySelector(s);
+    const ui={players:$('#players'),playerCount:$('#playerCount'),totalBuyins:$('#totalBuyins'),totalCash:$('#totalCash'),balance:$('#balanceMetric'),gameDate:$('#gameDate'),tip:$('#dealerTip'),settlements:$('#settlements'),status:$('#status'),reconcile:$('#reconcile'),undo:$('#undoBtn'),moneyModal:$('#moneyModal'),moneyTitle:$('#moneyTitle'),moneyPrompt:$('#moneyPrompt'),moneyAmount:$('#moneyAmount'),backupModal:$('#backupModal')};
+    const blank=()=>({version:1,createdAt:new Date().toISOString(),nextId:1,dealerTip:0,players:[]});
+    let state=load(), history=[], edit=null, lastFocus=null;
+
+    function dollars(n){return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n)}
+    function integer(v,label='Amount'){const n=Number(v);if(!Number.isSafeInteger(n)||n<0)throw new Error(label+' must be a whole number of dollars.');return n}
+    function cleanName(v){const name=String(v||'').trim().replace(/\s+/g,' ');if(!name)throw new Error('Enter a player name.');if(name.length>32)throw new Error('Names must be 32 characters or fewer.');if(name.toLowerCase()==='dealer')throw new Error('“Dealer” is reserved.');if(state.players.some(p=>p.name.toLowerCase()===name.toLowerCase()))throw new Error('That player is already at the table.');return name}
+    function validate(raw){if(!raw||typeof raw!=='object'||!Array.isArray(raw.players))throw new Error('This is not a Midnight Felt backup.');const ids=new Set();const players=raw.players.map(p=>{const id=integer(p.id,'Player ID');if(id<1||ids.has(id))throw new Error('Backup contains invalid player IDs.');ids.add(id);const name=String(p.name||'').trim();if(!name||name.length>32||name.toLowerCase()==='dealer')throw new Error('Backup contains an invalid player name.');return{id,name,buyins:integer(p.buyins,'Buy-ins'),cashout:integer(p.cashout,'Cash-out')}});if(new Set(players.map(p=>p.name.toLowerCase())).size!==players.length)throw new Error('Backup contains duplicate names.');const created=new Date(raw.createdAt);if(Number.isNaN(created.valueOf()))throw new Error('Backup contains an invalid game date.');return{version:1,createdAt:created.toISOString(),nextId:Math.max(1,...players.map(p=>p.id+1)),dealerTip:integer(raw.dealerTip,'Dealer tip'),players}}
+    function load(){try{const raw=localStorage.getItem(KEY);return raw?validate(JSON.parse(raw)):blank()}catch(e){return blank()}}
+    function save(){try{localStorage.setItem(KEY,JSON.stringify(state));setStatus('Saved on this device.','ok')}catch(e){setStatus('Could not save on this device. Download a backup now.','error')}}
+    function snapshot(){history.push(JSON.stringify(state));if(history.length>MAX_UNDO)history.shift()}
+    function mutate(fn){snapshot();try{fn();save();render()}catch(e){state=JSON.parse(history.pop());setStatus(e.message,'error');render()}}
+    function setStatus(msg,type=''){ui.status.textContent=msg;ui.status.className='status '+type}
+    function totals(){const buyins=state.players.reduce((s,p)=>s+p.buyins,0),cash=state.players.reduce((s,p)=>s+p.cashout,0),balance=cash+state.dealerTip-buyins;return{buyins,cash,balance}}
+    function nets(){return state.players.map(p=>({id:p.id,name:p.name,net:p.cashout-p.buyins})).concat(state.dealerTip?[{id:'dealer',name:'Dealer',net:state.dealerTip}]:[])}
+    function settle(items){const debtors=items.filter(x=>x.net<0).map(x=>({...x,amount:-x.net})).sort((a,b)=>b.amount-a.amount);const creditors=items.filter(x=>x.net>0).map(x=>({...x,amount:x.net})).sort((a,b)=>b.amount-a.amount);const out=[];let i=0,j=0;while(i<debtors.length&&j<creditors.length){const amount=Math.min(debtors[i].amount,creditors[j].amount);out.push({from:debtors[i].name,to:creditors[j].name,amount});debtors[i].amount-=amount;creditors[j].amount-=amount;if(!debtors[i].amount)i++;if(!creditors[j].amount)j++}return out}
+    function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+    function render(){const t=totals();ui.playerCount.textContent=state.players.length;ui.totalBuyins.textContent=dollars(t.buyins);ui.totalCash.textContent=dollars(t.cash);ui.balance.textContent=(t.balance>0?'+':'')+dollars(t.balance);ui.balance.className=t.balance===0?'good':'bad';ui.gameDate.textContent=new Intl.DateTimeFormat(undefined,{dateStyle:'medium'}).format(new Date(state.createdAt));ui.tip.value=state.dealerTip;ui.reconcile.textContent=(t.balance>0?'+':'')+dollars(t.balance);ui.undo.disabled=!history.length;
+      ui.players.innerHTML=state.players.length?state.players.map(p=>{const net=p.cashout-p.buyins;return `<article class="player"><div class="player-name"><strong>${esc(p.name)}</strong><small class="net ${net>0?'pos':net<0?'neg':''}">${net>0?'+':''}${dollars(net)} net</small></div><div class="amounts"><div class="pill"><small>Buy-ins</small><b>${dollars(p.buyins)}</b></div><div class="pill"><small>Cash-out</small><b>${dollars(p.cashout)}</b></div></div><div class="player-actions"><button class="btn" data-action="buyin" data-id="${p.id}" type="button">Buy-in</button><button class="btn" data-action="cashout" data-id="${p.id}" type="button">Cash out</button><button class="btn icon-btn danger" data-action="remove" data-id="${p.id}" type="button" aria-label="Remove ${esc(p.name)}">×</button></div></article>`}).join(''):`<div class="empty"><b>The table is open</b>Add the first player to start the ledger.</div>`;
+      if(t.balance!==0){ui.settlements.innerHTML='';setStatus(t.balance>0?`Cash-outs and tip exceed buy-ins by ${dollars(t.balance)}.`:`Cash-outs and tip are short by ${dollars(-t.balance)}.`,'error')}else if(!state.players.length){ui.settlements.innerHTML='';setStatus('Add players and record their chips.')}else{const payments=settle(nets());ui.settlements.innerHTML=payments.length?payments.map(p=>`<div class="payment"><span>${esc(p.from)}</span><span class="arrow">→</span><span class="to"><b>${dollars(p.amount)}</b> to ${esc(p.to)}</span></div>`).join(''):`<div class="empty"><b>All square</b>No payments are needed.</div>`;setStatus('Table reconciled.','ok')}}
+    function openMoney(id,kind,trigger){const p=state.players.find(x=>x.id===id);if(!p)return;edit={id,kind};lastFocus=trigger;ui.moneyTitle.textContent=kind==='buyin'?'Add buy-in':'Set cash-out';ui.moneyPrompt.textContent=kind==='buyin'?`Add another buy-in for ${p.name}.`:`Enter ${p.name}’s total cash-out.`;ui.moneyAmount.value=kind==='cashout'?p.cashout:'';ui.moneyModal.classList.add('open');setTimeout(()=>ui.moneyAmount.focus(),0)}
+    function closeModal(modal){modal.classList.remove('open');if(lastFocus)lastFocus.focus();lastFocus=null}
+    $('#addPlayerForm').addEventListener('submit',e=>{e.preventDefault();const input=$('#playerName');try{const name=cleanName(input.value);mutate(()=>state.players.push({id:state.nextId++,name,buyins:0,cashout:0}));input.value='';input.focus()}catch(err){setStatus(err.message,'error')}});
+    ui.players.addEventListener('click',e=>{const b=e.target.closest('button[data-action]');if(!b)return;const id=Number(b.dataset.id),p=state.players.find(x=>x.id===id);if(!p)return;if(b.dataset.action==='remove'){if(confirm(`Remove ${p.name} from this game?`))mutate(()=>state.players=state.players.filter(x=>x.id!==id));return}openMoney(id,b.dataset.action,b)});
+    $('#moneyForm').addEventListener('submit',e=>{e.preventDefault();try{const n=integer(ui.moneyAmount.value);mutate(()=>{const p=state.players.find(x=>x.id===edit.id);if(edit.kind==='buyin'){if(n<1)throw new Error('A buy-in must be at least $1.');p.buyins+=n}else p.cashout=n});closeModal(ui.moneyModal)}catch(err){setStatus(err.message,'error')}});
+    ui.tip.addEventListener('change',()=>{try{const n=integer(ui.tip.value,'Dealer tip');mutate(()=>state.dealerTip=n)}catch(err){ui.tip.value=state.dealerTip;setStatus(err.message,'error')}});
+    ui.undo.addEventListener('click',()=>{if(!history.length)return;state=JSON.parse(history.pop());save();render()});
+    $('#newBtn').addEventListener('click',()=>{if(confirm('Start a new game? Download a backup first if you want to keep this one.'))mutate(()=>state=blank())});
+    $('#backupBtn').addEventListener('click',e=>{lastFocus=e.currentTarget;ui.backupModal.classList.add('open');setTimeout(()=>$('#downloadBtn').focus(),0)});
+    $('#downloadBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`midnight-felt-${state.createdAt.slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);setStatus('Backup downloaded.','ok')});
+    $('#restoreFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const restored=validate(JSON.parse(await file.text()));if(!confirm('Replace the current game with this backup?'))return;mutate(()=>state=restored);closeModal(ui.backupModal);setStatus('Backup restored.','ok')}catch(err){setStatus(err.message,'error')}finally{e.target.value=''}});
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.closest('.modal'))));
+    document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m)}));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(closeModal)});
+    window.addEventListener('storage',e=>{if(e.key===KEY){state=load();history=[];render();setStatus('Game refreshed from another tab.','ok')}});
+    render();
+  })();
+  </script>
+</body>
+</html>
